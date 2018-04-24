@@ -71,7 +71,7 @@ RUN git clone https://github.com/NewKnowledge/nk_croc.git
 # For CUDA profiling, TensorFlow requires CUPTI.
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
-WORKDIR ./croc
+WORKDIR ./nk_croc
 
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8

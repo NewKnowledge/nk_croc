@@ -98,21 +98,8 @@ class Croc():
                 return dict(tokens=text['tokens'], text=clean_chars)
 
     def predict(self, *, inputs):
-        """
-            Produce image object classification predictions and OCR for an
-            image provided as an URI or filepath
-
-        Parameters
-        ----------
-        inputs : Image URI or filepath
-
-        Returns
-        -------
-        output : A dict with objects, text and tokens, corresponding to the
-            detected objects, raw text and tokens predicted to bne in the 
-            supplied image.
-        """
-
+        ''' Produce predictions for objects and text
+        '''
         image_path = inputs
 
         print(image_path)

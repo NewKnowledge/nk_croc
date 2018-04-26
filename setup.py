@@ -13,5 +13,5 @@ setup(name='nk_croc',
                         'requests >= 2.18.4',
                         'numpy >= 1.13.3',
                         'Pillow >= 5.1.0',
-                        'en-core-web-sm >= 2.0.0']
+                        'en-core-web-sm']
       )

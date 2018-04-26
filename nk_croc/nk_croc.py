@@ -97,7 +97,7 @@ class Croc():
 
                 return dict(tokens=text['tokens'], text=clean_chars)
 
-    def predict(self, *, inputs):
+    def predict(self, inputs):
         ''' Produce predictions for objects and text
         '''
         image_path = inputs

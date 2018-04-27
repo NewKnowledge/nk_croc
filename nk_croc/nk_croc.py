@@ -3,11 +3,11 @@ import os
 import time
 import re
 import string
+from json import dumps
 from PIL import Image, ImageFilter
 
 import requests
 import spacy
-from json import dumps
 from tesserocr import PyTessBaseAPI
 import numpy as np
 import pandas as pd

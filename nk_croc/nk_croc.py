@@ -129,10 +129,10 @@ class Croc():
                 target_id = self.isa_dict[object_]
                 target_label = self.id_mapping_dict[object_] 
                 tree_.append(dict(id=target_id, labels=target_label))
-                climb(self, target_object, tree_)
+                climb(self, target_id, tree_)
 
             except Exception as e:
-                e
+                print(e)
 
             return tree_
 

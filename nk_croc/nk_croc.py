@@ -15,14 +15,19 @@ from keras.preprocessing import image
 from keras.applications.inception_v3 \
     import InceptionV3, decode_predictions, preprocess_input
 
+from is_a import isa_dict
+from id_mapping import id_mapping_dict
+
 
 class Croc():
 
     def __init__(self):
         self.target_size = (299, 299)
         self.model = InceptionV3(weights='imagenet')
-        self.nlp = spacy.load('en')
+        self.nlp = spacy.load('en_core_web_md')
         self.n_top_preds = 10
+        self.isa_dict = isa_dict
+        self.id_mapping_dict = id_mapping_dict
 
     def load_image(self, img_path, prep_func=lambda x: x):
         ''' load image given path and convert to an array
@@ -37,6 +42,10 @@ class Croc():
         # get image
         response = requests.get(image_url)
         with Image.open(io.BytesIO(response.content)) as img:
+            # fill transparency if needed
+            if img.mode in ('RGBA', 'LA'):
+                img = self.strip_alpha_channel(img)
+        
             # convert to jpeg
             if img.format is not 'jpeg':
                 img = img.convert('RGB')
@@ -58,8 +67,10 @@ class Croc():
         '''
         doc = self.nlp(raw_chars, disable=['parser', 'ner'])
         text = [t.text for t in doc]
-        tokens = [tok.lemma_.lower().strip() for tok in doc
-                  if tok.lemma_ != '-PRON-']
+        tokens = [tok.lemma_.strip() for tok in doc
+                  if self.nlp.vocab.has_vector(str(tok)) and # is_oov currently (v2.0.11) broken 
+                  tok.lemma_ != '-PRON-'] 
+
         tokens = [tok for tok in tokens
                   if tok not in self.nlp.Defaults.stop_words and
                   tok not in string.punctuation]
@@ -76,12 +87,23 @@ class Croc():
         predictions = decode_func(predictions, top=self.n_top_preds)
         return predictions
 
+    def strip_alpha_channel(self, image, fill_color='#ffffff'):
+        ''' Strip the alpha channel of an image and fill with fill color
+        '''
+        background = Image.new(image.mode[:-1], image.size, fill_color)
+        background.paste(image, image.split()[-1])
+        return background
+
     def char_detect(self, img_path):
         ''' Run tesseract ocr on an image supplied
             as an image path.
         '''
         with PyTessBaseAPI() as ocr_api:
             with Image.open(img_path) as image:
+                # fill image alpha channel if it exists
+                if image.mode in ('RGBA', 'LA'):
+                    image = self.strip_alpha_channel(image)
+                
                 # will need a better preprocessing approach here
                 # if we stay with tesseract:
                 sharp_image = image.filter(ImageFilter.SHARPEN)
@@ -97,12 +119,37 @@ class Croc():
 
                 return dict(tokens=text['tokens'], text=clean_chars)
 
-    def predict(self, inputs):
+    def climb_hierarchy(self, objects):
+
+        def climb(self, object_, tree_):
+            ''' function to climb the wordnet tree hierarchy and
+                return the concepts along the branch.
+            '''
+            try:
+                target_id = self.isa_dict[object_]
+                target_label = self.id_mapping_dict[object_] 
+                tree_.append(dict(id=target_id, labels=target_label))
+                climb(self, target_object, tree_)
+
+            except Exception as e:
+                e
+
+            return tree_
+
+        # trace branch to root for each object
+        object_trees = list()
+        for object_ in objects:
+            tree_ = list()
+
+            complete_tree = climb(self, object_, tree_)
+            object_trees.extend(complete_tree)
+
+        return object_trees
+
+    def predict(self, input_path):
         ''' Produce predictions for objects and text
         '''
-        image_path = inputs
-
-        print(image_path)
+        image_path = input_path
 
         if self.validate_url(image_path):
             filename = 'target_img.jpg'
@@ -121,6 +168,8 @@ class Croc():
         object_predictions = pd.DataFrame.from_records(
             object_predictions[0], columns=['id', 'label', 'confidence'])
 
+        object_trees = self.climb_hierarchy(objects=object_predictions['id'])
+
         print('performing character recognition')
         char_predictions = self.char_detect(filename)
 
@@ -129,6 +178,7 @@ class Croc():
 
         return dumps(dict(
             objects=object_predictions.to_dict(),
+            object_trees=object_trees,
             text=[str(i) for i in char_predictions['text']],
             tokens=char_predictions['tokens']))
 
@@ -136,5 +186,5 @@ class Croc():
 if __name__ == '__main__':
     client = Croc()
     image_path = 'http://i0.kym-cdn.com/photos/images/facebook/001/253/011/0b1.jpg'
-    result = client.predict(inputs=image_path)
+    result = client.predict(input_path=image_path)
     print(result)

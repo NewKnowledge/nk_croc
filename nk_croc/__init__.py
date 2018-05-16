@@ -1,11 +1,11 @@
 from nk_croc.nk_croc import Croc
-import is_a
-import id_mapping
+from is_a import isa_dict
+from id_mapping import id_mapping_dict
 
 __version__ = '1.1.0'
 
 __all__ = [
           'Croc'
-          'is_a'
-          'id_mapping'
+          'id_mapping_dict'
+          'isa_dict'
           ]

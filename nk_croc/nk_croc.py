@@ -132,7 +132,7 @@ class Croc():
                 climb(self, target_id, tree_)
 
             except Exception as e:
-                print(e)
+                e
 
             return tree_
 

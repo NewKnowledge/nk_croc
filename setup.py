@@ -7,14 +7,14 @@ from setuptools.command.install import install
 class PostDevelopCommand(develop):
     """Post-installation for development mode."""
     def run(self):
-        os.system("python3 -m spacy download en")
+        os.system("python3 -m spacy download en_core_web_md")
         develop.run(self)
 
 
 class PostInstallCommand(install):
     """Post-installation for installation mode."""
     def run(self):
-        os.system("python3 -m spacy download en")
+        os.system("python3 -m spacy download en_core_web_md")
         install.run(self)
 
 

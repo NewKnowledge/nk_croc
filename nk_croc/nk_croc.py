@@ -15,8 +15,8 @@ from keras.preprocessing import image
 from keras.applications.inception_v3 \
     import InceptionV3, decode_predictions, preprocess_input
 
-from is_a import isa_dict
-from id_mapping import id_mapping_dict
+from nk_croc.is_a import isa_dict
+from nk_croc.id_mapping import id_mapping_dict
 
 
 class Croc():

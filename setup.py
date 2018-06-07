@@ -24,7 +24,7 @@ setup(name='nk_croc',
       packages=['nk_croc'],
       install_requires=[
                         'tensorflow == 1.8.0',
-                        'Keras == 2.16.0',
+                        'Keras == 2.1.6',
                         'pandas == 0.23.0',
                         'tesserocr == 2.2.2',
                         'spacy == 2.0.9',

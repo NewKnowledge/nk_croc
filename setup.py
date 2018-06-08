@@ -23,7 +23,7 @@ setup(name='nk_croc',
       description='Character recognition and object classification system.',
       packages=['nk_croc'],
       install_requires=[
-                        'tensorflow == 1.7.0',
+                        'tensorflow == 1.8.0',
                         'Keras == 2.1.6',
                         'pandas >= 0.22.0, <= 0.23.0',
                         'tesserocr == 2.2.2',

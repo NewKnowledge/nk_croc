@@ -15,8 +15,8 @@ from keras.preprocessing import image
 from keras.applications.inception_v3 \
     import InceptionV3, decode_predictions, preprocess_input
 
-from is_a import isa_dict
-from id_mapping import id_mapping_dict
+from nk_croc.is_a import isa_dict
+from nk_croc.id_mapping import id_mapping_dict
 
 
 class Croc():
@@ -108,7 +108,7 @@ class Croc():
                 # if we stay with tesseract:
                 image = image.convert('L')
                 # image = image.filter(ImageFilter.SHARPEN)
-                image = image.filter(ImageFilter.EDGE_ENHANCE)
+                # image = image.filter(ImageFilter.EDGE_ENHANCE)
 
 
                 ocr_api.SetImage(image)
@@ -188,6 +188,6 @@ class Croc():
 
 if __name__ == '__main__':
     client = Croc()
-    image_path = 'https://scontent-dfw5-2.xx.fbcdn.net/v/t1.0-9/33413505_2460900010602062_908929420452954112_n.jpg?_nc_cat=0&oh=358d66d605ef2e416bb0b226b36f5ccb&oe=5BBCE310'
+    image_path = 'http://i0.kym-cdn.com/photos/images/facebook/001/253/011/0b1.jpg'
     result = client.predict(input_path=image_path)
     print(result)

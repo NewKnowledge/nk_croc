@@ -1,0 +1,49 @@
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+<div class = mainbody>
+
+	<h1>here's your image:</h1>
+
+	<img class = "targetimg" src = {{ image_path }} >
+	
+	<section class="container">
+	    
+	    <div class="one">
+	    
+			<h2>here are the objects that CROC found:</h2> 
+
+			{{ table|safe }}
+
+		</div>
+
+		<div class="two">
+		
+			<h2>here are the characters that CROC found:</h2>
+
+			<h2> tokens (words) </h2>
+			{{chars['tokens']}}
+
+			<h2> raw text </h2>
+			{{chars['text']}}
+		
+		</div>
+
+	</section>
+
+	<br><br>
+
+	<div class="container"; style="padding-top: 2cm">
+		
+		{{tree}}
+
+	</div>
+
+	<br><br>
+
+	<a href="{{ url_for('index') }}">Try another!</a>
+
+</div>
+
+
+	

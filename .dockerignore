@@ -1,10 +1,12 @@
 __pycache__/*
 
-api-wrapper
-
 .vscode
+lib
+venv
 
 .gitignore
 Dockerfile
+*.dockerfile
 Jenkinsfile
 README.md
+include

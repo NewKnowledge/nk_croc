@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzmq3-dev \
     libjpeg-dev \
     libtiff-dev \
-    # TESTING
-    # libpng12-dev \
-    # libssl-dev \
-    # END TEST
     zlib1g-dev \
     tesseract-ocr \
     libtesseract-dev \
@@ -42,9 +38,14 @@ ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
 WORKDIR /app
 
-COPY .. /app
+COPY . /app
 
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
 RUN pip3 install -e /app
+RUN pip3 install -r /app/api-wrapper/requirments.txt
+
+ENV FLASK_APP=/app/api-wrapper/app.py
+
+CMD ["python3", "-m", "flask", "run", "--host", "0.0.0.0", "--port", "5000"]

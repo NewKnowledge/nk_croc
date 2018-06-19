@@ -1,0 +1,10 @@
+__pycache__/*
+
+api-wrapper
+
+.vscode
+
+.gitignore
+Dockerfile
+Jenkinsfile
+README.md

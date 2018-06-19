@@ -42,7 +42,7 @@ ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
 WORKDIR /app
 
-COPY . /app
+COPY .. /app
 
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8

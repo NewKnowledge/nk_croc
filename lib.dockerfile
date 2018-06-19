@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzmq3-dev \
     libjpeg-dev \
     libtiff-dev \
-    # TESTING
-    # libpng12-dev \
-    # libssl-dev \
-    # END TEST
     zlib1g-dev \
     tesseract-ocr \
     libtesseract-dev \

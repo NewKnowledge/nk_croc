@@ -10,3 +10,4 @@ Dockerfile
 Jenkinsfile
 README.md
 include
+*.env

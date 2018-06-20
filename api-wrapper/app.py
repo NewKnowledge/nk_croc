@@ -7,6 +7,7 @@ from json import dumps, loads
 import pandas as pd
 from keras.applications.inception_v3 import InceptionV3
 from nk_croc import Croc
+from utils import requires_auth
 
 
 class CrocRestListener():
@@ -40,11 +41,13 @@ app = Flask(__name__)
 
 
 @app.route('/')
+@requires_auth
 def index():
     return render_template('index.html')
 
 
 @app.route("/demo-fileupload", methods=['POST'])
+@requires_auth
 def demo_analyze_uploaded_image():
     ''' Listen for an image url being POSTed on root.
     '''
@@ -62,6 +65,7 @@ def demo_analyze_uploaded_image():
 
 
 @app.route("/fileupload", methods=['POST'])
+@requires_auth
 def analyze_uploaded_image():
     ''' Listen for an image url being POSTed on root.
     '''

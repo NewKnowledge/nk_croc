@@ -9,8 +9,8 @@ or
 
 Start CROC as a service on your local-machine with:
 
-1) `docker build -t croc-api:dev -f ./api.dockerfile .`
-2) `docker run -p 5000:5000 croc-api:dev`
+1) `docker build -t croc-http:dev -f ./http.dockerfile .`
+2) `docker run -p 5000:5000 croc-http:dev`
 
 ## Structure of this repo
 

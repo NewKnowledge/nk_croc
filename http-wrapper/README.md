@@ -6,8 +6,8 @@ A Flask wrapper for CROC
 
 From the root of the project 
 
-1) `docker build -t croc-api:dev -f ./api.dockerfile .`
-2) `docker run -dp 5000:5000 croc-api:dev`
+1) `docker build -t croc-http:dev -f ./http.dockerfile .`
+2) `docker run -dp 5000:5000 croc-http:dev`
 
 ## Routes
 
@@ -19,8 +19,8 @@ From the root of the project
 
 ## Developing
 
-1) `docker build -t croc-api:dev -f ./api.dockerfile .`
-2) `docker run -it --rm -p 5000:5000 -v $(pwd):/app croc-api:dev bash`
+1) `docker build -t croc-http:dev -f ./http.dockerfile .`
+2) `docker run -it --rm -p 5000:5000 -v $(pwd):/app croc-http:dev bash`
     - This drops you into an interactive shell in the container with your local/host files mounted so your changes are reflected in the container
 3) In the interactive-shell/container run `python3 -m flask run --host 0.0.0.0 --port 5000`
 4) When you make some changes kill the running process with `ctrl c` and rerun step 3.

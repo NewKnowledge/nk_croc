@@ -11,7 +11,8 @@ from utils import requires_auth
 
 
 class CrocRestListener():
-    """ CrocRestListener accepts an image path or URL
+    """ **Class for managing croc config. Based off of CROC**
+        CrocRestListener accepts an image path or URL
         and outputs a json file with the character and object
         information that has been deteected.
     """
@@ -33,23 +34,29 @@ class CrocRestListener():
         return loads(croc_result)
 
 
-# Initialize flask
+# Init croc Class def'd above
 listener = CrocRestListener()
+# Hack-y work around for ensuring Keras Tensor map is available in the global scope.
+# See https://github.com/keras-team/keras/issues/2397 for more info
 listener.analyze_image(
     image_path="http://i0.kym-cdn.com/photos/images/facebook/001/253/011/0b1.jpg")
+# Init Flask
 app = Flask(__name__)
 
 
 @app.route('/')
 @requires_auth
 def index():
+    """ **Demo Landing Route**
+    """
     return render_template('index.html')
 
 
 @app.route("/demo-fileupload", methods=['POST'])
 @requires_auth
 def demo_analyze_uploaded_image():
-    ''' Listen for an image url being POSTed on root.
+    ''' **Demo Results Route**
+        Listen for an image url being POSTed on root.
     '''
     request.get_data()
 
@@ -57,6 +64,7 @@ def demo_analyze_uploaded_image():
 
     result = listener.analyze_image(image_path=image_path)
 
+    # Converting to pd.DataFrame seemed to be the fastest way to get results to a http table
     return render_template(
         'display.html', image_path=image_path,
         table=pd.DataFrame.from_dict(result['objects']).ix[:, [
@@ -67,7 +75,8 @@ def demo_analyze_uploaded_image():
 @app.route("/fileupload", methods=['POST'])
 @requires_auth
 def analyze_uploaded_image():
-    ''' Listen for an image url being POSTed on root.
+    ''' **Route for using croc as a http/web service**
+        Listen for an image url being POSTed on root.
     '''
     request.get_data()
 

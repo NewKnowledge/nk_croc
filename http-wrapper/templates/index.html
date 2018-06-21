@@ -1,0 +1,15 @@
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+<div class="mainbody">
+
+	<h1> Hello there! </h1>
+
+	<h2> Provide the link to an image below to detect its objects and characters. </h2>
+
+	<form action="{{ url_for('demo_analyze_uploaded_image') }}" method="post">
+		<input type="text" name="image_path" class=urlentry>
+		<input type="submit" class=urlentrybutton>
+
+	</form>
+
+</div>

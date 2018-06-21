@@ -18,7 +18,7 @@ The core of this repo is `setup.py` and `nk_croc`.
 
 This repo is pip-installsable and makes the contents of `nk_croc` available after installation.
 
-There is an api-wrapper for the library located in `api-wrapper`. It uses `nk_croc` and can be built with the `api.dockerfile`. For more information see [the README.md in `api-wrapper`](./api-wrapper/README.md)
+There is a flask wrapper for the library located in `http-wrapper`. It uses `nk_croc` and can be built with the `http.dockerfile`. For more information see [the README.md in `http-wrapper`](./http-wrapper/README.md)
 
 ## Coming soon
 

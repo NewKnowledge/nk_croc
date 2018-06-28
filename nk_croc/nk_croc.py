@@ -66,7 +66,10 @@ class Croc():
         ''' use spacy to clean text and find tokens
         '''
         doc = self.nlp(raw_chars, disable=['parser', 'ner'])
-        text = [t.text for t in doc]
+
+        # grab raw text while removing any hanging newlines
+        text = [t.text for t in doc if t.text.replace(' ', '').replace('\n', '')]
+
         tokens = [tok.lemma_.strip() for tok in doc
                   if self.nlp.vocab.has_vector(str(tok)) and # is_oov currently (v2.0.11) broken
                   tok.lemma_ != '-PRON-']

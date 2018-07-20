@@ -7,8 +7,8 @@ from json import dumps
 from PIL import Image, ImageFilter
 
 import requests
-import spacy
-from tesserocr import PyTessBaseAPI
+# import spacy
+# from tesserocr import PyTessBaseAPI
 import numpy as np
 import pandas as pd
 from keras.preprocessing import image
@@ -24,10 +24,10 @@ class Croc():
     def __init__(self):
         self.target_size = (299, 299)
         self.model = InceptionV3(weights='imagenet')
-        self.nlp = spacy.load('en_core_web_md')
+        # self.nlp = spacy.load('en_core_web_md')
         self.n_top_preds = 10
-        self.isa_dict = isa_dict
-        self.id_mapping_dict = id_mapping_dict
+        # self.isa_dict = isa_dict
+        # self.id_mapping_dict = id_mapping_dict
 
     def load_image(self, img_path, prep_func=lambda x: x):
         ''' load image given path and convert to an array
@@ -171,19 +171,19 @@ class Croc():
         object_predictions = pd.DataFrame.from_records(
             object_predictions[0], columns=['id', 'label', 'confidence'])
 
-        object_trees = self.climb_hierarchy(objects=object_predictions['id'])
+        # object_trees = self.climb_hierarchy(objects=object_predictions['id'])
 
-        print('performing character recognition')
-        char_predictions = self.char_detect(filename)
+        # print('performing character recognition')
+        # char_predictions = self.char_detect(filename)
 
         if filename == 'target_img.jpg':
             os.remove('target_img.jpg')
 
         return dumps(dict(
             objects=object_predictions.to_dict(),
-            object_trees=object_trees,
-            text=char_predictions['text'],
-            tokens=char_predictions['tokens']))
+            object_trees='',
+            text='',
+            tokens=''))
 
 
 if __name__ == '__main__':

@@ -19,7 +19,7 @@ class PostInstallCommand(install):
 
 
 setup(name='nk_croc',
-      version='1.1.0',
+      version='1.1.1',
       description='Character recognition and object classification system.',
       packages=['nk_croc'],
       install_requires=[

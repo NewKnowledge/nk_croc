@@ -18,6 +18,7 @@ from keras.applications.inception_v3 \
 from nk_croc.is_a import isa_dict
 from nk_croc.id_mapping import id_mapping_dict
 
+requests_session = requests.Session() if os.environ.get('USE_REQUESTS_SESSION') else requests
 
 class Croc():
 
@@ -40,12 +41,12 @@ class Croc():
         ''' load an image from a provided hyperlink
         '''
         # get image
-        response = requests.get(image_url)
+        response = requests_session.get(image_url)
         with Image.open(io.BytesIO(response.content)) as img:
             # fill transparency if needed
             if img.mode in ('RGBA', 'LA'):
                 img = self.strip_alpha_channel(img)
-        
+
             # convert to jpeg
             if img.format is not 'jpeg':
                 img = img.convert('RGB')
@@ -68,8 +69,8 @@ class Croc():
         doc = self.nlp(raw_chars, disable=['parser', 'ner'])
         text = [t.text for t in doc]
         tokens = [tok.lemma_.strip() for tok in doc
-                  if self.nlp.vocab.has_vector(str(tok)) and # is_oov currently (v2.0.11) broken 
-                  tok.lemma_ != '-PRON-'] 
+                  if self.nlp.vocab.has_vector(str(tok)) and # is_oov currently (v2.0.11) broken
+                  tok.lemma_ != '-PRON-']
 
         tokens = [tok for tok in tokens
                   if tok not in self.nlp.Defaults.stop_words and
@@ -103,7 +104,7 @@ class Croc():
                 # fill image alpha channel if it exists
                 if image.mode in ('RGBA', 'LA'):
                     image = self.strip_alpha_channel(image)
-                
+
                 # will need a better preprocessing approach here
                 # if we stay with tesseract:
                 image = image.convert('L')
@@ -130,7 +131,7 @@ class Croc():
             '''
             try:
                 target_id = self.isa_dict[object_]
-                target_label = self.id_mapping_dict[object_] 
+                target_label = self.id_mapping_dict[object_]
                 tree_.append(dict(id=target_id, labels=target_label))
                 climb(self, target_id, tree_)
 

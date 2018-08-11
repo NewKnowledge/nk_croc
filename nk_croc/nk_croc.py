@@ -18,6 +18,7 @@ from keras.applications.inception_v3 \
 from nk_croc.is_a import isa_dict
 from nk_croc.id_mapping import id_mapping_dict
 
+requests_session = requests.Session() if os.environ.get('USE_REQUESTS_SESSION') == "True" else requests
 
 class Croc():
 
@@ -40,7 +41,7 @@ class Croc():
         ''' load an image from a provided hyperlink
         '''
         # get image
-        response = requests.get(image_url)
+        response = requests_session.get(image_url)
         with Image.open(io.BytesIO(response.content)) as img:
             # fill transparency if needed
             if img.mode in ('RGBA', 'LA'):

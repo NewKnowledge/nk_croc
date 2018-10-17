@@ -12,6 +12,13 @@ Start CROC as a service on your local-machine with:
 1) `docker build -t croc-http:dev -f ./http.dockerfile .`
 2) `docker run -p 5000:5000 croc-http:dev`
 
+## Configuration
+
+You can set the following env vars to change some behaviors.
+
+- `GET_IMAGE_TIMEOUT`: int. max number of seconds to wait before triggering timeout error when downloading an image. *Default is 10s.*
+- `USE_REQUESTS_SESSION`: boolean. Toggle option for using sessions when downloading images (True) or to create a new connection on every request (False). *Default is True.* 
+
 ## Structure of this repo
 
 The core of this repo is `setup.py` and `nk_croc`. 

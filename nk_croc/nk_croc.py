@@ -19,6 +19,8 @@ from nk_croc.is_a import isa_dict
 from nk_croc.id_mapping import id_mapping_dict
 
 requests_session = requests.Session() if os.environ.get('USE_REQUESTS_SESSION') == "True" else requests
+# GET_IMAGE_TIMEOUT is max number of seconds to wait before triggering timeout error when downloading an image
+get_image_timeout = int(os.environ.get("GET_IMAGE_TIMEOUT", "10"))
 
 class Croc():
 
@@ -40,8 +42,9 @@ class Croc():
     def load_image_from_web(self, image_url):
         ''' load an image from a provided hyperlink
         '''
-        # get image
-        response = requests_session.get(image_url)
+        # get image with timout
+        # More info on using request with timeouts: http://docs.python-requests.org/en/master/user/quickstart/#timeouts
+        response = requests_session.get(image_url, timeout=get_image_timeout)
         with Image.open(io.BytesIO(response.content)) as img:
             # fill transparency if needed
             if img.mode in ('RGBA', 'LA'):

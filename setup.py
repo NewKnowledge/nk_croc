@@ -28,7 +28,7 @@ setup(name='nk_croc',
                         'pandas >= 0.22.0, <= 0.23.0',
                         'tesserocr == 2.3.1',
                         'spacy == 2.0.11',
-                        'requests == 2.18.4',
+                        'requests == 2.20.0',
                         'numpy >= 1.13.3',
                         'Pillow >= 5.1.0'],
       cmdclass={

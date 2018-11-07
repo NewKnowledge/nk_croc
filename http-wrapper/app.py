@@ -8,6 +8,9 @@ import pandas as pd
 from keras.applications.inception_v3 import InceptionV3
 from nk_croc import Croc
 from utils import requires_auth
+from get_logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class CrocRestListener():
@@ -28,7 +31,7 @@ class CrocRestListener():
 
         croc_result = self.croc.predict(input_path=image_path)
 
-        print(
+        logger.info(
             "The whole script took %f seconds to execute"
             % (time.time()-start))
         return loads(croc_result)

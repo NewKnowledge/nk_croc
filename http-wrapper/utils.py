@@ -2,6 +2,9 @@ from os import getenv
 from functools import wraps
 
 from flask import Response, request
+from get_logger import get_logger
+
+logger = get_logger(__name__)
 
 authorized_user = {
     "user": getenv("API_USER", "admin"),
@@ -9,10 +12,10 @@ authorized_user = {
 }
 
 if authorized_user["user"] is "admin":
-    print("[WARN]: Using default username")
+    logger.warn("Using default username")
 
 if authorized_user["pass"] is None:
-    print("[WARN]: authorized_user password is not set")
+    logger.warn("Authorized_user password is not set")
 
 
 def requires_auth(f):

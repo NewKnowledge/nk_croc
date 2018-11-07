@@ -17,6 +17,9 @@ from keras.applications.inception_v3 \
 
 from nk_croc.is_a import isa_dict
 from nk_croc.id_mapping import id_mapping_dict
+from get_logger import get_logger
+
+logger = get_logger(__name__)
 
 requests_session = requests.Session() if os.environ.get('USE_REQUESTS_SESSION') == "True" else requests
 # GET_IMAGE_TIMEOUT is max number of seconds to wait before triggering timeout error when downloading an image
@@ -164,12 +167,12 @@ class Croc():
         else:
             filename = image_path
 
-        print('preprocessing image')
+        logger.info('preprocessing image')
         X = np.array(
             [self.load_image(
                 filename, prep_func=preprocess_input)])
 
-        print('making object predictions')
+        logger.info('making object predictions')
         object_predictions = self.classify_objects(X, decode_predictions)
 
         object_predictions = pd.DataFrame.from_records(
@@ -194,4 +197,4 @@ if __name__ == '__main__':
     client = Croc()
     image_path = 'http://i0.kym-cdn.com/photos/images/facebook/001/253/011/0b1.jpg'
     result = client.predict(input_path=image_path)
-    print(result)
+    logger.info(result)

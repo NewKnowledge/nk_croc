@@ -1,1 +1,2 @@
 flask
+nk-logger>=1.1,<1.1.99

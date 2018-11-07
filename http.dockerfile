@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     tesseract-ocr \
     libtesseract-dev \
-    libleptonica-dev 
+    libleptonica-dev \
+    git
 
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
